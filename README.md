@@ -3,6 +3,7 @@
 ## List of shader programs
 
 - Fuzzy Circle
+- Perforated Look
 
 # References
 
