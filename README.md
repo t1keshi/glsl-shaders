@@ -23,6 +23,32 @@ genType max(genType x, genType y);
 ```
 Return the greater of two values.
 
+```
+genType reflect(genType I, genType N);
+```
+Calculate the reflection direction for an incident vector.
+
+```
+genType mix(genType x, genType y, gentType a);
+```
+Linearly interpolate between two values.
+mix performs a linear interpolation between x and y using a to weight between them. The return value is computed as x(1−a) + ya.
+
+```
+genType fract(genType x);
+```
+Compute the fractional part of the argument.
+
+```
+bvec greaterThan(vec x, vec y);
+```
+Perform a component-wise greater-than comparison of two vectors.
+
+```
+bool all(bvec x);
+```
+Check whether all elements of a boolean vector are true.
+
 
 # References
 
