@@ -4,6 +4,7 @@
 
 - Fuzzy Circle
 - Perforated Look
+- Phong Model Reflection (Gouraud shading, Phong Shadind, Blinn-Phong Shading, Two-Sided Shading, Non Local Viewer)
 
 ## GLSL functions
 
