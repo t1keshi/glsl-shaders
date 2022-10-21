@@ -6,6 +6,7 @@
 - Perforated Look
 - Phong Model Reflection (Gouraud shading, Phong Shadind, Blinn-Phong Shading, Two-Sided Shading, Non Local Viewer)
 - Toon Shading
+- Physically-Based Reflection (PBR)
 
 
 ## GLSL functions
@@ -52,6 +53,20 @@ bool all(bvec x);
 ```
 Check whether all elements of a boolean vector are true.
 
+```
+genType floor(genType x);
+```
+Find the nearest integer less than or equal to the parameter.
+
+```
+genType ceil(genType x);
+```
+Find the nearest integer that is greater than or equal to the parameter.
+
+```
+genType clamp(genType x, genType minVal, genType maxVal);
+```
+Constrain a value to lie between two further values.
 
 # References
 
