@@ -1,6 +1,5 @@
 #version 450 core
 
-
 // attribute variables
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec4 baseColor;
@@ -21,12 +20,14 @@ layout (location = 3) out vec3 out_eyePosition; // interpolate the position acro
 
 void main()
 {
+	mat4 modelViewMatrix = viewMatrix * modelMatrix;
+
 	// getting the normal matrix transformation from modelview matrix transformation
-	mat3 eyeMatrix = transpose(inverse(mat3(viewMatrix * modelMatrix)));
-	vec3 transfomedNormal = normalize(eyeMatrix * normal);
+	mat3 eyeMatrix = transpose(inverse(mat3(modelViewMatrix)));
 
-	out_transfomedNormal = transfomedNormal;
-	out_eyePosition = (viewMatrix * modelMatrix * vec4(position, 1.0)).xyz;
+	out_transfomedNormal = normalize(eyeMatrix * normal); // must be in eye space
+	out_eyePosition = (modelViewMatrix * vec4(position, 1.0)).xyz; // must be in eye space
 
-	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+	// column-major order -> proj * view * model * position
+	gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
