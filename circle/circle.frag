@@ -13,17 +13,9 @@ void main()
 	float dy = texCoords.y - 0.5;
 	float dist = sqrt(dx * dx + dy * dy);
 
-	// calcula um valor que varia "smoothly" entre 0.0 e 1.0 dependendo se
-	// a distância calculada for menor que RadiusInner ou maior que RadiusOuter
-	//float smoothColor = smoothstep(RadiusInner, RadiusOuter, dist);
-
-	// calcula a cor através da interpolação linear entre InnerColor e OuterColor baseada no valor de smoothColor
-	//fragmentColor = mix(InnerColor, OuterColor, smoothColor);
-	//fragmentColor = vec4(smoothColor, smoothColor, smoothColor, 1.0);
-
-	// draw circle with inner colored
+	// verifica se a distância do pixel está dentro do raio definido pelo RadiusInner
 	if(dist <= RadiusInner)
-		fragmentColor = vec4(1.0, 1.0, 0.0, 1.0);
+		fragmentColor = vec4(1.0, 0.0, 0.0, 1.0);
 	else
 		discard;
 }
