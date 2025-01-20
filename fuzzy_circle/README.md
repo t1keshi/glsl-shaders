@@ -2,9 +2,6 @@
 
 The circle is a solid color in the center (**InnerColor**), but at its edge, it gradually fades to the background color (**OuterColor**).
 
-- Quad (two triangles) with texture coordinates
-- Uniform buffer objects and uniform blocks
-
 ## The vertex data
 
 ```
@@ -29,7 +26,7 @@ The circle is a solid color in the center (**InnerColor**), but at its edge, it 
 	};
 ```
 
-Estrutura de dados (uniform block) com as configurações do efeito fuzzy:
+Setting up the uniform block in C++
 
 ```
 	GLuint blockIndex = glGetUniformBlockIndex(m_shader.getProgramID(), "BlobSettings");
@@ -45,6 +42,8 @@ Estrutura de dados (uniform block) com as configurações do efeito fuzzy:
 	
 	GLint offset[4];
 	glGetActiveUniformsiv(m_shader.getProgramID(), 4, indices, GL_UNIFORM_OFFSET, offset);
+
+	// VALUES FOR OUR UNIFORM BLOCK
 	GLfloat OuterColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	GLfloat InnerColor[] = { 1.0f, 1.0f, 0.75f, 1.0f };
 	GLfloat RadiusInner = 0.25f;
@@ -65,38 +64,35 @@ Estrutura de dados (uniform block) com as configurações do efeito fuzzy:
 
 The OuterColor variable defines the color outside of the circle. InnerColor is the color inside of the circle. RadiusInner is the radius that defines the part of the circle that is a solid color (inside the fuzzy edge), and the distance from the center of the circle to the inner edge of the fuzzy boundary. RadiusOuter is the outer edge of the fuzzy boundary of the circle (when the color is equal to OuterColor).
 
-
 ## The fragment shader
 
 ```
-#version 420 core
-
-layout (location = 0) in vec2 texCoords;
-layout (location = 0) out vec4 fragmentColor;
-
-layout (binding = 0) uniform BlobSettings {
-	vec4 InnerColor; // the color inside of the circle
-	vec4 OuterColor; // the color outside of the circle
-	float RadiusInner; // radius that defines the part of the circle that is a solid color (inside the fuzzy edge)
-	float RadiusOuter; // the outer edge of the fuzzy boundary of the circle
-};
-
-void main()
-{
-	// calcula a distância entre a coordenada de textura (interporlada) e o centro (0.5 do intervalo [0,1])
-	float dx = texCoords.x - 0.5;
-	float dy = texCoords.y - 0.5;
-	float dist = sqrt(dx * dx + dy * dy);
-
-	// calcula um valor que varia "smoothly" entre 0.0 e 1.0 se a distância calculada estiver entre os
-	// valores de RadiusInner e RadiusOuter
-	// Caso contráriom retornará 0.0 ou 1.0 se a distância for menor que RadiusInner ou se for maior
-	// que RadiusOuter, respectivamente
-	float smoothColor = smoothstep(RadiusInner, RadiusOuter, dist);
-
-	// calcula a cor através da interpolação linear entre InnerColor e OuterColor baseada no valor de smoothColor
-	fragmentColor = mix(InnerColor, OuterColor, smoothColor);
-}
+	#version 420 core
+	
+	layout (location = 0) in vec2 texCoords;
+	layout (location = 0) out vec4 fragmentColor;
+	
+	layout (binding = 0) uniform BlobSettings {
+		vec4 InnerColor; // the color inside of the circle
+		vec4 OuterColor; // the color outside of the circle
+		float RadiusInner; // radius that defines the part of the circle that is a solid color (inside the fuzzy edge)
+		float RadiusOuter; // the outer edge of the fuzzy boundary of the circle
+	};
+	
+	void main()
+	{
+		// calcula a distância entre a coordenada de textura (interporlada) e o centro
+		float dx = texCoords.x - 0.5;
+		float dy = texCoords.y - 0.5;
+		float dist = sqrt(dx * dx + dy * dy);
+	
+		// calcula um valor que varia "smoothly" entre 0.0 e 1.0 se a distância calculada estiver entre os valores de RadiusInner e RadiusOuter
+		// Caso contrário, retornará 0.0 ou 1.0 se a distância for menor que RadiusInner ou se for maior que RadiusOuter, respectivamente
+		float smoothColor = smoothstep(RadiusInner, RadiusOuter, dist);
+	
+		// calcula a cor através da interpolação linear entre InnerColor e OuterColor baseada no valor de smoothColor
+		fragmentColor = mix(InnerColor, OuterColor, smoothColor);
+	}
 ```
 
 ## Reference
