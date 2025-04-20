@@ -4,8 +4,9 @@
 
 - Filled Circle
 - Fuzzy Circle
-- Perforated Look
+- Diffuse reflection
 - Phong Model Reflection (Gouraud shading, Phong Shadind, Blinn-Phong Shading, Two-Sided Shading, Non Local Viewer)
+- Perforated Look
 - Toon Shading
 - Physically-Based Reflection (PBR)
 
