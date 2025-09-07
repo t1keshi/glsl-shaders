@@ -1,4 +1,4 @@
-# Drawing in Vertex Shader with no VBO
+# Drawing a point with no vertex buffer object (vbo)
 
 C++/OpenGL application side:
 
