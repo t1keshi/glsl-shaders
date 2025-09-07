@@ -2,6 +2,7 @@
 
 ## List of shader programs
 
+- First GLSL shader (drawing a point with no vertex buffer object)
 - Filled Circle
 - Fuzzy Circle
 - Diffuse reflection
